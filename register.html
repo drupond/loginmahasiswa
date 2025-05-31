@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #1a237e, #9e9e9e);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      width: 320px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #1a237e;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 18px 0;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 15px;
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      background-color: #1a237e;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(26, 35, 126, 0.4);
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0d1544;
+    }
+
+    .link {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .link a {
+      color: #1a237e;
+      text-decoration: none;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h2>Registrasi</h2>
+    <!-- action="#" supaya submit gak reload halaman -->
+    <form id="registerForm" action="#" autocomplete="off" onsubmit="return false;">
+      <input type="text" name="username" placeholder="Username" required autofocus />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="submit" value="Register" onclick="alert('Registrasi berhasil! (simulasi)');" />
+    </form>
+    <div class="link">
+      Sudah punya akun? <a href="index.html">Login di sini</a>
+    </div>
+  </div>
+</body>
+
+</html>

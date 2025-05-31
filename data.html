@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Data Siswa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+  <style>
+    body { background-color: #f5f5f5; }
+    h3 { font-weight: bold; }
+    .table th, .table td { text-align: center; vertical-align: middle; }
+    .btn-sm { margin: 2px; }
+  </style>
+</head>
+<body>
+<div class="container py-4">
+  <h3 class="text-center mb-4">DATA SISWA</h3>
+
+  <div class="d-flex justify-content-between mb-3 flex-wrap">
+    <div>
+      <button class="btn btn-success mb-2" onclick="history.back();">Kembali</button>
+    </div>
+    <div>
+      <button class="btn btn-primary me-2 mb-2" id="btnTambah"> + Tambah Data</button>
+      <button class="btn btn-success mb-2" onclick="window.print();">🖨️ Cetak</button>
+    </div>
+  </div>
+
+  <table id="example" class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>No.</th>
+        <th>Nama</th>
+        <th>Jenis Kelamin</th>
+        <th>Umur</th>
+        <th>Jurusan</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Ahmad Fauzi</td>
+        <td>Laki - Laki</td>
+        <td>17 Tahun</td>
+        <td>Rekayasa Perangkat Lunak</td>
+        <td>
+          <a class="btn btn-success btn-sm">Detail</a>
+          <button class="btn btn-warning btn-sm btn-edit" 
+                  data-id="1" 
+                  data-nama="Ahmad Fauzi" 
+                  data-jk="Laki - Laki"
+                  data-umur="17"
+                  data-jurusan="Rekayasa Perangkat Lunak">Ubah</button>
+          <button class="btn btn-danger btn-sm" onclick="alert('Data dihapus (simulasi).')">Hapus</button>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Siti Nurhaliza</td>
+        <td>Perempuan</td>
+        <td>18 Tahun</td>
+        <td>Multimedia</td>
+        <td>
+          <a class="btn btn-success btn-sm">Detail</a>
+          <button class="btn btn-warning btn-sm btn-edit"
+                  data-id="2"
+                  data-nama="Siti Nurhaliza"
+                  data-jk="Perempuan"
+                  data-umur="18"
+                  data-jurusan="Multimedia">Ubah</button>
+          <button class="btn btn-danger btn-sm" onclick="alert('Data dihapus (simulasi).')">Hapus</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalData" tabindex="-1">
+  <div class="modal-dialog">
+    <form class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Form Data Siswa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="inputId">
+        <div class="mb-3">
+          <label>Nama</label>
+          <input type="text" class="form-control" id="inputNama" required>
+        </div>
+        <div class="mb-3">
+          <label>Jenis Kelamin</label>
+          <select id="inputJK" class="form-control" required>
+            <option value="">-- Pilih --</option>
+            <option value="Laki - Laki">Laki - Laki</option>
+            <option value="Perempuan">Perempuan</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>Umur</label>
+          <input type="number" id="inputUmur" class="form-control" required min="10" max="25">
+        </div>
+        <div class="mb-3">
+          <label>Jurusan</label>
+          <select id="inputJurusan" class="form-control" required>
+            <option value="">-- Pilih Jurusan --</option>
+            <option value="Teknik Informatika">Teknik Informatika</option>
+            <option value="Sistem Informasi">Sistem Informasi</option>
+            <option value="Teknik Komputer">Teknik Komputer</option>
+            <option value="Rekayasa Perangkat Lunak">Rekayasa Perangkat Lunak</option>
+            <option value="Teknik Jaringan Komputer">Teknik Jaringan Komputer</option>
+            <option value="Multimedia">Multimedia</option>
+            <option value="Teknik Elektronika">Teknik Elektronika</option>
+            <option value="Otomasi Industri">Otomasi Industri</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnSimpan" class="btn btn-primary">Simpan</button>
+        <button type="button" id="btnUpdate" class="btn btn-warning d-none">Update</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#example').DataTable();
+
+    const modal = new bootstrap.Modal(document.getElementById('modalData'));
+
+    $('#btnTambah').click(function () {
+      $('#modalData form')[0].reset();
+      $('#btnSimpan').show();
+      $('#btnUpdate').addClass('d-none');
+      modal.show();
+    });
+
+    $('.btn-edit').click(function () {
+      $('#inputId').val($(this).data('id'));
+      $('#inputNama').val($(this).data('nama'));
+      $('#inputJK').val($(this).data('jk'));
+      $('#inputUmur').val($(this).data('umur'));
+      $('#inputJurusan').val($(this).data('jurusan'));
+
+      $('#btnSimpan').hide();
+      $('#btnUpdate').removeClass('d-none');
+      modal.show();
+    });
+
+    $('#btnSimpan').click(function () {
+      alert("Data disimpan (simulasi)");
+      modal.hide();
+    });
+
+    $('#btnUpdate').click(function () {
+      alert("Data diperbarui (simulasi)");
+      modal.hide();
+    });
+  });
+</script>
+</body>
+</html>
